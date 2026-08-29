@@ -8,8 +8,8 @@
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 
   const I18N = {
-    ru: {locker:'Раздевалка', training:'Тренировка', first:'Тайм 1', second:'Тайм 2', begin:'Выйти на поле', continue:'Продолжить', submit:'Ответить', ready:'Готово', correct:'Верно! Отличная игра!', incorrect:'Неверно. Продолжаем матч!', partial:'Частично верно', points:'Очки', score:'Счёт', question:'Задание', shoot:'Потяните мяч назад и отпустите', goal:'ГОЛ!', saved:'СЕЙВ!', next:'Дальше', results:'Матч завершён', accuracy:'Точность', right:'Верных', again:'Сыграть ещё раз', hint:'Подсказка', oral:'Ответьте устно, затем нажмите «Готово»', halftime:'Перерыв', halftimeText:'Первый тайм завершён. Время перевести дух!', startSecond:'Начать второй тайм'},
-    en: {locker:'Locker room', training:'Training', first:'First half', second:'Second half', begin:'Enter the pitch', continue:'Continue', submit:'Submit', ready:'Ready', correct:'Correct! Great play!', incorrect:'Not quite. Keep playing!', partial:'Partly correct', points:'Points', score:'Score', question:'Question', shoot:'Pull the ball back and release', goal:'GOAL!', saved:'SAVED!', next:'Continue', results:'Full time', accuracy:'Accuracy', right:'Correct', again:'Play again', hint:'Hint', oral:'Answer aloud, then press “Ready”', halftime:'Half-time', halftimeText:'The first half is over. Take a breather!', startSecond:'Start second half'}
+    ru: {locker:'Раздевалка', training:'Тренировка', first:'Тайм 1', second:'Тайм 2', begin:'Выйти на поле', continue:'Продолжить', submit:'Ответить', ready:'Готово', correct:'Верно! Отличная игра!', incorrect:'Неверно. Продолжаем матч!', partial:'Частично верно', points:'Очки', score:'Счёт', question:'Задание', shoot:'Веди игрока кликом по полю. Потяни мяч назад и отпусти для удара', goal:'ГОЛ!', saved:'СЕЙВ!', next:'Дальше', results:'Матч завершён', accuracy:'Точность', right:'Верных', again:'Сыграть ещё раз', hint:'Подсказка', oral:'Ответьте устно, затем нажмите «Готово»', halftime:'Перерыв', halftimeText:'Первый тайм завершён. Время перевести дух!', startSecond:'Начать второй тайм',choosePlayer:'Выбери своего футболиста',choosePlayerText:'У каждого героя свой стиль игры. Кем ты выйдешь на поле?',choose:'Играть за героя'},
+    en: {locker:'Locker room', training:'Training', first:'First half', second:'Second half', begin:'Enter the pitch', continue:'Continue', submit:'Submit', ready:'Ready', correct:'Correct! Great play!', incorrect:'Not quite. Keep playing!', partial:'Partly correct', points:'Points', score:'Score', question:'Question', shoot:'Click the pitch to move. Pull the ball back and release to shoot', goal:'GOAL!', saved:'SAVED!', next:'Continue', results:'Full time', accuracy:'Accuracy', right:'Correct', again:'Play again', hint:'Hint', oral:'Answer aloud, then press “Ready”', halftime:'Half-time', halftimeText:'The first half is over. Take a breather!', startSecond:'Start second half',choosePlayer:'Choose your footballer',choosePlayerText:'Every hero has a unique style. Who will you play as?',choose:'Choose player'}
   };
 
   const sectionDefaults = () => [
@@ -24,7 +24,7 @@
   });
 
   const defaultProject = () => ({
-    schemaVersion:1, appVersion:'1.0.0', meta:{title:'Мой футбольный урок',author:'Гальмиз Мария Александровна'}, locale:'ru', difficulty:'normal', teamName:'Команда знаний', basePoints:100, goalPoints:50, shuffleAnswers:false, soundEnabled:true, reducedMotion:false, publicUrl:'', theme:{accent:'#b7f34a',card:'#102a22',text:'#ffffff',questionSize:28,answerSize:17,glow:18}, sections:sectionDefaults(), questions:[]
+    schemaVersion:1, appVersion:'1.1.0', meta:{title:'Мой футбольный урок',author:'Гальмиз Мария Александровна'}, locale:'ru', difficulty:'normal', teamName:'Команда знаний', basePoints:100, goalPoints:50, shuffleAnswers:false, soundEnabled:true, reducedMotion:false, publicUrl:'', selectedPlayer:0, players:[{name:'Майя',role:'winger'},{name:'Тео',role:'forward'},{name:'Алиса',role:'playmaker'},{name:'Макс',role:'forward'},{name:'Зара',role:'defender'},{name:'Лео',role:'playmaker'}], theme:{accent:'#b7f34a',card:'#102a22',text:'#ffffff',questionSize:28,answerSize:17,glow:18}, sections:sectionDefaults(), questions:[]
   });
 
   let project = defaultProject();
@@ -38,7 +38,7 @@
   let commitTimer;
   let saveTimer;
 
-  const gameState = {screen:'intro', sectionIndex:0, questionIndex:0, points:0, goalsFor:0, goalsAgainst:0, correct:0, checked:0, selected:new Set(), order:[], feedback:'', feedbackClass:'', locked:false};
+  const gameState = {screen:'player-select', sectionIndex:0, questionIndex:0, points:0, goalsFor:0, goalsAgainst:0, correct:0, checked:0, selected:new Set(), order:[], feedback:'', feedbackClass:'', locked:false,playerIndex:0};
 
   function toast(message) { const el=$('#toast'); el.textContent=message; el.classList.add('show'); clearTimeout(el._timer); el._timer=setTimeout(()=>el.classList.remove('show'),2200); }
   function t(key) { return (I18N[project.locale] || I18N.ru)[key] || key; }
@@ -69,7 +69,7 @@
     $('#questionSize').value=project.theme.questionSize; $('#answerSize').value=project.theme.answerSize; $('#glow').value=project.theme.glow;
     $('#questionSizeOut').value=`${project.theme.questionSize}px`; $('#answerSizeOut').value=`${project.theme.answerSize}px`; $('#glowOut').value=`${project.theme.glow}px`;
     $('#teamName').value=project.teamName; $('#basePoints').value=project.basePoints; $('#goalPoints').value=project.goalPoints;
-    $('#shuffleAnswers').checked=project.shuffleAnswers; $('#soundEnabled').checked=project.soundEnabled; $('#reducedMotion').checked=project.reducedMotion; $('#publicUrl').value=project.publicUrl || '';
+    $('#shuffleAnswers').checked=project.shuffleAnswers; $('#soundEnabled').checked=project.soundEnabled; $('#reducedMotion').checked=project.reducedMotion; $('#publicUrl').value=project.publicUrl || ''; renderPlayerEditor();
   }
 
   function renderEditor(){
@@ -98,11 +98,14 @@
 
   function renderAssetPreviews(){const s=activeSection(); const bg=$('#backgroundPreview'),ch=$('#characterPreview');bg.style.backgroundImage=s.background?`url("${s.background}")`:'';bg.textContent=s.background?'':'Фон не загружен';ch.style.backgroundImage=s.character?`url("${s.character}")`:'';ch.textContent=s.character?'':'Персонаж не загружен';}
 
+  function spriteStyle(index){return `background-position-x:${index*20}%`}
+  function renderPlayerEditor(){const root=$('#playerRosterEditor');if(!root||!project.players)return;root.innerHTML=project.players.map((p,i)=>`<button class="player-choice ${i===project.selectedPlayer?'active':''}" data-editor-player="${i}"><i class="player-sprite" style="${spriteStyle(i)}"></i><span>${escapeHtml(p.name)}</span></button>`).join('');const p=project.players[project.selectedPlayer]||project.players[0];if(p){$('#playerName').value=p.name;$('#playerRole').value=p.role;}}
+
   function enabledSections(){return project.sections.filter(s=>s.enabled);}
   function currentRuntimeSection(){return enabledSections()[gameState.sectionIndex];}
   function runtimeQuestions(){return project.questions.filter(q=>q.sectionId===currentRuntimeSection()?.id);}
 
-  function resetGame(){Object.assign(gameState,{screen:'intro',sectionIndex:0,questionIndex:0,points:0,goalsFor:0,goalsAgainst:0,correct:0,checked:0,selected:new Set(),order:[],feedback:'',feedbackClass:'',locked:false});renderGame(true);}
+  function resetGame(){Object.assign(gameState,{screen:'player-select',sectionIndex:0,questionIndex:0,points:0,goalsFor:0,goalsAgainst:0,correct:0,checked:0,selected:new Set(),order:[],feedback:'',feedbackClass:'',locked:false,playerIndex:project.selectedPlayer||0});renderGame(true);}
 
   function renderGame(){
     const root=$('#game'); root.classList.toggle('reduced',project.reducedMotion); root.style.setProperty('--accent',project.theme.accent);root.style.setProperty('--card',project.theme.card);root.style.setProperty('--gameText',project.theme.text);root.style.setProperty('--qsize',`${project.theme.questionSize}px`);root.style.setProperty('--asize',`${project.theme.answerSize}px`);root.style.setProperty('--glow',`${project.theme.glow}px`);
@@ -111,7 +114,8 @@
     const sec=currentRuntimeSection()||sections[0];
     const nav=sections.map((s,i)=>`<span class="${i===gameState.sectionIndex?'active':''}">${escapeHtml(localized(s.title))}</span>`).join('');
     let content='';
-    if(gameState.screen==='intro') content=`<div class="hero-copy"><div class="eyebrow">${escapeHtml(project.teamName)}</div><h1>${escapeHtml(localized(sec.title))}</h1><p>${escapeHtml(localized(sec.intro))}</p><button class="game-button" data-game-action="start">${t(sec.id==='locker'?'begin':'continue')} →</button></div>${sec.character?`<img class="character-img" alt="Игровой персонаж" src="${sec.character}">`:'<div class="character-img" style="font-size:140px" aria-hidden="true">⚽</div>'}`;
+    if(gameState.screen==='player-select') content=playerSelectMarkup();
+    else if(gameState.screen==='intro') content=`<div class="hero-copy"><div class="eyebrow">${escapeHtml(project.teamName)} · ${escapeHtml(project.players[gameState.playerIndex]?.name||'')}</div><h1>${escapeHtml(localized(sec.title))}</h1><p>${escapeHtml(localized(sec.intro))}</p><div class="speech-bubble">«${sec.id==='locker'?'Я готов к матчу! Давай найдём задания в экипировке.':'Команда, вперёд!'}»</div><button class="game-button" data-game-action="start">${t(sec.id==='locker'?'begin':'continue')} →</button></div>${sec.character?`<img class="character-img" alt="Игровой персонаж" src="${sec.character}">`:`<div class="selected-player-display"><i class="player-sprite" style="${spriteStyle(gameState.playerIndex)}"></i></div>`}`;
     else if(gameState.screen==='question') content=questionMarkup();
     else if(gameState.screen==='football') content=footballMarkup();
     else if(gameState.screen==='halftime') content=`<div class="results-card"><div class="eyebrow">${t('halftime')}</div><h1>${gameState.goalsFor} : ${gameState.goalsAgainst}</h1><p>${t('halftimeText')}</p><button class="game-button" data-game-action="next-section">${t('startSecond')} →</button></div>`;
@@ -119,6 +123,9 @@
     const bg=sec?.background||'';
     root.innerHTML=`<div class="game-bg" style="${bg?`background-image:url('${bg}')`:''}"></div><div class="pitch-lines"></div><header class="game-top"><div class="game-logo">⚽ FOOTBALL</div><div class="game-nav">${nav}</div><div class="scoreboard"><span>${t('score')} ${gameState.goalsFor}:${gameState.goalsAgainst}</span><span>${t('points')} ${gameState.points}</span></div></header><main class="game-content">${content}</main>`;
   }
+
+  function playerSelectMarkup(){return `<section class="player-select-screen"><div class="eyebrow">${escapeHtml(project.teamName)}</div><h1>${t('choosePlayer')}</h1><p>${t('choosePlayerText')}</p><div class="player-select-grid">${project.players.map((p,i)=>`<button class="game-player-card" data-pick-player="${i}" aria-label="${t('choose')}: ${escapeHtml(p.name)}"><i class="player-sprite" style="${spriteStyle(i)}"></i><span>${escapeHtml(p.name)} · ${escapeHtml(roleName(p.role))}</span></button>`).join('')}</div></section>`}
+  function roleName(role){return ({forward:'Нападающий',playmaker:'Плеймейкер',winger:'Крайний игрок',defender:'Защитник'})[role]||role}
 
   function questionMarkup(){
     const q=runtimeQuestions()[gameState.questionIndex]; if(!q){setTimeout(advanceSection,0);return '<div class="results-card">Загрузка…</div>';}
@@ -130,7 +137,7 @@
     return `<section class="question-view ${gameState.feedbackClass}"><div class="question-meta"><span>${t('question')} ${gameState.questionIndex+1}/${runtimeQuestions().length}</span><span>+${q.points||project.basePoints}</span></div><h2>${escapeHtml(q.text)}</h2>${body}<div class="submit-row"><span class="feedback">${escapeHtml(gameState.feedback)}</span><button class="game-button" data-game-action="submit" ${gameState.locked?'disabled':''}>${q.type==='oral'?t('ready'):t('submit')}</button></div></section>`;
   }
 
-  function footballMarkup(){return `<div class="football-view" id="footballField"><div class="goal"></div><div class="keeper"></div><div class="ball" role="button" tabindex="0" aria-label="Мяч">⚽</div><div class="aim-line" hidden></div><div class="shot-hint">${t('shoot')}</div></div>`;}
+  function footballMarkup(){const match=['first','second'].includes(currentRuntimeSection()?.id);return `<div class="football-view ${match?'match-mode':''}" id="footballField"><div class="match-hud">${match?'АТАКА · ПАС · УДАР':'ТРЕНИРОВОЧНЫЙ УДАР'}</div><div class="goal"></div><div class="keeper"></div>${match?'<i class="team-dot" style="left:34%;top:20%"></i><i class="team-dot" style="left:48%;top:72%"></i><i class="team-dot opponent" style="left:57%;top:32%"></i><i class="team-dot opponent" style="left:69%;top:65%"></i><i class="controlled-player"></i>':''}<div class="ball" role="button" tabindex="0" aria-label="Мяч">⚽</div><div class="aim-line" hidden></div><div class="shot-hint">${t('shoot')}</div></div>`;}
   function resultsMarkup(){const accuracy=gameState.checked?Math.round(gameState.correct/gameState.checked*100):0;return `<div class="results-card"><div class="eyebrow">${t('results')}</div><div class="result-score">${gameState.goalsFor} : ${gameState.goalsAgainst}</div><h2>${escapeHtml(project.teamName)}</h2><div class="stats"><div><b>${gameState.points}</b><span>${t('points')}</span></div><div><b>${accuracy}%</b><span>${t('accuracy')}</span></div><div><b>${gameState.correct}/${gameState.checked}</b><span>${t('right')}</span></div></div><button class="game-button" data-game-action="restart">↻ ${t('again')}</button></div>`;}
 
   function startSection(){const qs=runtimeQuestions();if(qs.length){gameState.screen='question';gameState.questionIndex=0;clearQuestionState();renderGame();}else advanceSection();}
@@ -151,12 +158,13 @@
   function playTone(kind){if(!project.soundEnabled)return;try{const ctx=new (window.AudioContext||window.webkitAudioContext)(),osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.frequency.value=kind==='correct'?620:220;gain.gain.setValueAtTime(.06,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.18);osc.start();osc.stop(ctx.currentTime+.2);}catch{}}
 
   function setupFootball(){
-    const field=$('#footballField');if(!field)return;const ball=$('.ball',field),line=$('.aim-line',field),keeper=$('.keeper',field);let dragging=false,start=null;
+    const field=$('#footballField');if(!field)return;const ball=$('.ball',field),line=$('.aim-line',field),keeper=$('.keeper',field),controlled=$('.controlled-player',field);let dragging=false,start=null;
     const point=e=>{const r=field.getBoundingClientRect(),p=e.touches?.[0]||e;return{x:p.clientX-r.left,y:p.clientY-r.top}};
     const begin=e=>{e.preventDefault();dragging=true;start=point(e);line.hidden=false;line.style.left=`${start.x}px`;line.style.top=`${start.y}px`;};
     const move=e=>{if(!dragging)return;e.preventDefault();const p=point(e),dx=start.x-p.x,dy=start.y-p.y,len=Math.min(130,Math.hypot(dx,dy)),angle=Math.atan2(dy,dx)*180/Math.PI;line.style.width=`${len}px`;line.style.transform=`rotate(${angle}deg)`;};
     const end=e=>{if(!dragging)return;dragging=false;const p=point(e.changedTouches?.[0]||e),dx=start.x-p.x,dy=start.y-p.y,power=Math.min(1,Math.hypot(dx,dy)/100);line.hidden=true;if(power<.15)return;animateShot(dx,dy,power,field,ball,keeper);};
     ball.addEventListener('pointerdown',begin);field.addEventListener('pointermove',move);field.addEventListener('pointerup',end);field.addEventListener('pointercancel',()=>dragging=false);
+    field.addEventListener('click',e=>{if(!controlled||e.target===ball)return;const p=point(e);controlled.style.left=`${Math.max(5,Math.min(82,p.x/field.clientWidth*100))}%`;controlled.style.top=`${Math.max(8,Math.min(84,p.y/field.clientHeight*100))}%`;ball.style.left=controlled.style.left;ball.style.top=controlled.style.top;});
     ball.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();animateShot(100,(Math.random()-.5)*90,.8,field,ball,keeper);}});
   }
 
@@ -181,6 +189,9 @@
     $('#sectionTitle').addEventListener('input',e=>{activeSection().title[project.locale]=e.target.value;renderEditorTabsOnly();markChanged();});
     $('#sectionIntro').addEventListener('input',e=>{activeSection().intro[project.locale]=e.target.value;markChanged();});
     $('#questionEditor').addEventListener('input',questionEditorInput);$('#questionEditor').addEventListener('change',questionEditorInput);$('#questionEditor').addEventListener('click',questionEditorClick);
+    $('#playerRosterEditor').addEventListener('click',e=>{const b=e.target.closest('[data-editor-player]');if(!b)return;project.selectedPlayer=+b.dataset.editorPlayer;renderPlayerEditor();markChanged(true);});
+    $('#playerName').addEventListener('input',e=>{project.players[project.selectedPlayer].name=e.target.value;renderPlayerEditor();markChanged();});
+    $('#playerRole').addEventListener('change',e=>{project.players[project.selectedPlayer].role=e.target.value;markChanged(true);});
     $('#restartPreview').addEventListener('click',resetGame);$('#game').addEventListener('click',gameClick);
     $('#undoBtn').addEventListener('click',()=>restoreHistory(historyIndex-1));$('#redoBtn').addEventListener('click',()=>restoreHistory(historyIndex+1));
     document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();restoreHistory(historyIndex+(e.shiftKey?1:-1));}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();restoreHistory(historyIndex+1);}});
@@ -198,13 +209,13 @@
   function renderQuestionChips(){const qs=sectionQuestions();$$('.question-chip').forEach((b,i)=>b.classList.toggle('invalid',!validQuestion(qs[i])));}
   function questionEditorClick(e){const q=activeQuestion();if(!q)return;if(e.target.id==='addOption'){q.options.push({id:uid(),text:`Вариант ${q.options.length+1}`,correct:false});renderQuestionEditor();markChanged(true);}if(e.target.closest('.remove-option')?.dataset.index){q.options.splice(+e.target.closest('.remove-option').dataset.index,1);renderQuestionEditor();markChanged(true);}if(e.target.id==='deleteQuestion'){if(confirm('Удалить задание?')){project.questions=project.questions.filter(x=>x.id!==q.id);activeQuestionId=null;renderEditor();markChanged(true);}}if(e.target.id==='duplicateQuestion'){const copy=clone(q);copy.id=uid();copy.options=copy.options.map(o=>({...o,id:uid()}));const idx=project.questions.findIndex(x=>x.id===q.id);project.questions.splice(idx+1,0,copy);activeQuestionId=copy.id;renderEditor();markChanged(true);}if(e.target.id==='moveQuestionLeft'||e.target.id==='moveQuestionRight'){const qs=sectionQuestions(),i=qs.findIndex(x=>x.id===q.id),swap=i+(e.target.id.endsWith('Left')?-1:1);if(swap>=0&&swap<qs.length){const a=project.questions.indexOf(q),b=project.questions.indexOf(qs[swap]);[project.questions[a],project.questions[b]]=[project.questions[b],project.questions[a]];renderEditor();markChanged(true);}}}
 
-  function gameClick(e){const action=e.target.closest('[data-game-action]')?.dataset.gameAction;if(action==='start')startSection();if(action==='submit')submitAnswer();if(action==='restart')resetGame();if(action==='next-section'){gameState.sectionIndex++;gameState.screen='intro';clearQuestionState();renderGame();}const answer=e.target.closest('[data-answer]');if(answer&&!gameState.locked){const q=runtimeQuestions()[gameState.questionIndex];if(q.type==='single')gameState.selected=new Set([answer.dataset.answer]);else gameState.selected.has(answer.dataset.answer)?gameState.selected.delete(answer.dataset.answer):gameState.selected.add(answer.dataset.answer);renderGame();}const up=e.target.closest('[data-order-up]'),down=e.target.closest('[data-order-down]');if(up||down){const i=+(up?.dataset.orderUp??down.dataset.orderDown),j=i+(up?-1:1);if(j>=0&&j<gameState.order.length){[gameState.order[i],gameState.order[j]]=[gameState.order[j],gameState.order[i]];renderGame();}}}
+  function gameClick(e){const picker=e.target.closest('[data-pick-player]');if(picker){gameState.playerIndex=+picker.dataset.pickPlayer;project.selectedPlayer=gameState.playerIndex;gameState.screen='intro';renderPlayerEditor();renderGame();return;}const action=e.target.closest('[data-game-action]')?.dataset.gameAction;if(action==='start')startSection();if(action==='submit')submitAnswer();if(action==='restart')resetGame();if(action==='next-section'){gameState.sectionIndex++;gameState.screen='intro';clearQuestionState();renderGame();}const answer=e.target.closest('[data-answer]');if(answer&&!gameState.locked){const q=runtimeQuestions()[gameState.questionIndex];if(q.type==='single')gameState.selected=new Set([answer.dataset.answer]);else gameState.selected.has(answer.dataset.answer)?gameState.selected.delete(answer.dataset.answer):gameState.selected.add(answer.dataset.answer);renderGame();}const up=e.target.closest('[data-order-up]'),down=e.target.closest('[data-order-down]');if(up||down){const i=+(up?.dataset.orderUp??down.dataset.orderDown),j=i+(up?-1:1);if(j>=0&&j<gameState.order.length){[gameState.order[i],gameState.order[j]]=[gameState.order[j],gameState.order[i]];renderGame();}}}
 
   function loadMedia(e,key){const file=e.target.files[0];if(!file)return;if(file.size>8*1024*1024)return toast('Файл больше 8 МБ. Выберите более лёгкое изображение.');const reader=new FileReader();reader.onload=()=>{activeSection()[key]=reader.result;renderAssetPreviews();markChanged(true);};reader.readAsDataURL(file);e.target.value='';}
   function safeName(){return(project.meta.title||'football-game').trim().replace(/[^a-zа-яё0-9_-]+/gi,'-').replace(/^-|-$/g,'')||'football-game';}
   function downloadBlob(content,name,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
   function downloadProject(){commitHistory();downloadBlob(JSON.stringify(project,null,2),`${safeName()}.football-project.json`,'application/json');toast('Проект скачан');}
-  async function loadProject(e){const file=e.target.files[0];if(!file)return;try{const data=JSON.parse(await file.text());if(data.schemaVersion!==1||!Array.isArray(data.sections)||!Array.isArray(data.questions))throw new Error('Неподдерживаемая структура');project={...defaultProject(),...data,theme:{...defaultProject().theme,...data.theme}};activeSectionId=project.sections[0]?.id||'locker';activeQuestionId=null;history=[JSON.stringify(project)];historyIndex=0;syncControls();renderEditor();resetGame();toast('Проект загружен');}catch(err){toast(`Не удалось загрузить: ${err.message}`);}e.target.value='';}
+  async function loadProject(e){const file=e.target.files[0];if(!file)return;try{const data=JSON.parse(await file.text());if(data.schemaVersion!==1||!Array.isArray(data.sections)||!Array.isArray(data.questions))throw new Error('Неподдерживаемая структура');project={...defaultProject(),...data,players:Array.isArray(data.players)?data.players:defaultProject().players,theme:{...defaultProject().theme,...data.theme}};activeSectionId=project.sections[0]?.id||'locker';activeQuestionId=null;history=[JSON.stringify(project)];historyIndex=0;syncControls();renderEditor();resetGame();toast('Проект загружен');}catch(err){toast(`Не удалось загрузить: ${err.message}`);}e.target.value='';}
 
   function standaloneHtml(minified=false){
     const data=JSON.stringify(project).replace(/</g,'\\u003c');const css=document.querySelector('link[href="styles.css"]')?'': ''; // stylesheet is fetched below by caller when possible

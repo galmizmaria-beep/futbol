@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#071c17">
   <title>Футбол — редактор учебной игры</title>
+  <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,16 +14,6 @@
       <div class="brand"><span class="brand-ball">⚽</span><span><b>Футбол</b><small>редактор учебной игры</small></span></div>
       <label class="project-title"><span class="sr-only">Название проекта</span><input id="projectTitle" value="Мой футбольный урок" maxlength="80"></label>
       <span id="saveState" class="save-state">Сохранено</span>
-      <nav class="actions" aria-label="Действия с проектом">
-        <button id="undoBtn" class="icon-btn" title="Отменить (Ctrl+Z)" aria-label="Отменить">↶</button>
-        <button id="redoBtn" class="icon-btn" title="Повторить (Ctrl+Shift+Z)" aria-label="Повторить">↷</button>
-        <button id="newBtn">Новый</button>
-        <button id="loadBtn">Загрузить проект</button>
-        <button id="saveBtn">Скачать проект</button>
-        <button id="htmlBtn" class="accent">Скачать HTML</button>
-        <button id="minifyBtn">Облегчить код</button>
-        <button id="embedBtn">Код для Genially</button>
-      </nav>
       <input id="projectFile" type="file" accept="application/json,.json,.football-project.json" hidden>
     </header>
 
@@ -32,6 +23,7 @@
       <aside class="editor-pane">
         <div class="editor-tabs" role="tablist" aria-label="Разделы редактора">
           <button class="active" data-tab="content">Содержание</button>
+          <button data-tab="players">Футболисты</button>
           <button data-tab="design">Дизайн</button>
           <button data-tab="settings">Настройки</button>
         </div>
@@ -51,6 +43,16 @@
           <div class="section-heading"><h2>Задания</h2><button id="addQuestion" class="round-add">＋</button></div>
           <div id="questionList" class="question-list"></div>
           <div id="questionEditor" class="question-editor empty"><p>Выберите задание или добавьте новое.</p></div>
+        </section>
+
+        <section class="tab-panel" data-panel="players">
+          <div class="panel-kicker">СОСТАВ КОМАНДЫ</div>
+          <h2>Выбор футболиста</h2>
+          <p class="panel-note">Ученик выбирает героя перед входом в раздевалку. Все персонажи оригинальные и встроены в игру.</p>
+          <div id="playerRosterEditor" class="player-roster-editor"></div>
+          <label>Имя выбранного футболиста<input id="playerName" maxlength="30"></label>
+          <label>Амплуа<select id="playerRole"><option value="forward">Нападающий</option><option value="playmaker">Плеймейкер</option><option value="winger">Крайний игрок</option><option value="defender">Защитник</option></select></label>
+          <div class="info-box">Роль влияет на подсказки: нападающий сильнее бьёт, плеймейкер точнее пасует, крайний игрок быстрее ведёт мяч, защитник лучше перехватывает.</div>
         </section>
 
         <section class="tab-panel" data-panel="design">
@@ -86,7 +88,12 @@
       </aside>
 
       <section class="preview-pane" aria-label="Предпросмотр игры">
-        <div class="preview-toolbar"><span><i class="live-dot"></i> Живой предпросмотр</span><div><button data-scale=".75">75%</button><button class="active" data-scale="1">100%</button><button id="fullscreenBtn" aria-label="Во весь экран">⛶</button></div></div>
+        <div class="preview-actions" aria-label="Действия с проектом">
+          <div class="action-group history-actions"><button id="undoBtn" class="icon-btn" title="Отменить (Ctrl+Z)" aria-label="Отменить">↶</button><button id="redoBtn" class="icon-btn" title="Повторить (Ctrl+Shift+Z)" aria-label="Повторить">↷</button></div>
+          <div class="action-group"><button id="newBtn">＋ Новый</button><button id="loadBtn">⇧ Загрузить</button><button id="saveBtn">⇩ Сохранить</button></div>
+          <div class="action-group export-actions"><button id="htmlBtn" class="accent">Скачать HTML</button><button id="minifyBtn">Облегчить код</button><button id="embedBtn">Код для Genially</button></div>
+        </div>
+        <div class="preview-toolbar"><span><i class="live-dot"></i> Интерактивный предпросмотр</span><div><button data-scale=".75">75%</button><button class="active" data-scale="1">100%</button><button id="fullscreenBtn" aria-label="Во весь экран">⛶</button></div></div>
         <div class="preview-stage"><div id="game" class="game-shell" tabindex="-1"></div></div>
       </section>
     </main>
