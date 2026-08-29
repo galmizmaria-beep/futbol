@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#071c17">
+  <title>Футбол — редактор учебной игры</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-ball">⚽</span><span><b>Футбол</b><small>редактор учебной игры</small></span></div>
+      <label class="project-title"><span class="sr-only">Название проекта</span><input id="projectTitle" value="Мой футбольный урок" maxlength="80"></label>
+      <span id="saveState" class="save-state">Сохранено</span>
+      <nav class="actions" aria-label="Действия с проектом">
+        <button id="undoBtn" class="icon-btn" title="Отменить (Ctrl+Z)" aria-label="Отменить">↶</button>
+        <button id="redoBtn" class="icon-btn" title="Повторить (Ctrl+Shift+Z)" aria-label="Повторить">↷</button>
+        <button id="newBtn">Новый</button>
+        <button id="loadBtn">Загрузить проект</button>
+        <button id="saveBtn">Скачать проект</button>
+        <button id="htmlBtn" class="accent">Скачать HTML</button>
+        <button id="minifyBtn">Облегчить код</button>
+        <button id="embedBtn">Код для Genially</button>
+      </nav>
+      <input id="projectFile" type="file" accept="application/json,.json,.football-project.json" hidden>
+    </header>
+
+    <div class="mobile-switch" role="tablist"><button class="active" data-view="editor">Редактор</button><button data-view="preview">Предпросмотр</button></div>
+
+    <main class="workspace">
+      <aside class="editor-pane">
+        <div class="editor-tabs" role="tablist" aria-label="Разделы редактора">
+          <button class="active" data-tab="content">Содержание</button>
+          <button data-tab="design">Дизайн</button>
+          <button data-tab="settings">Настройки</button>
+        </div>
+
+        <section class="tab-panel active" data-panel="content">
+          <div class="field-row">
+            <label>Язык игры<select id="localeSelect"><option value="ru">Русский</option><option value="en">English</option></select></label>
+            <label>Сложность<select id="difficultySelect"><option value="easy">Легко</option><option value="normal" selected>Обычно</option><option value="hard">Сложно</option></select></label>
+          </div>
+          <div class="section-heading"><h2>Разделы игры</h2><button id="restartPreview" class="text-btn">↻ С начала</button></div>
+          <div id="sectionTabs" class="section-tabs"></div>
+          <div class="section-card">
+            <label class="toggle-line"><input id="sectionEnabled" type="checkbox" checked><span>Раздел включён</span></label>
+            <label>Заголовок раздела<input id="sectionTitle" maxlength="60"></label>
+            <label>Вступительный текст<textarea id="sectionIntro" rows="3" maxlength="500"></textarea></label>
+          </div>
+          <div class="section-heading"><h2>Задания</h2><button id="addQuestion" class="round-add">＋</button></div>
+          <div id="questionList" class="question-list"></div>
+          <div id="questionEditor" class="question-editor empty"><p>Выберите задание или добавьте новое.</p></div>
+        </section>
+
+        <section class="tab-panel" data-panel="design">
+          <h2>Оформление</h2>
+          <div class="field-row colors">
+            <label>Акцент<input id="accentColor" type="color"></label>
+            <label>Карточка<input id="cardColor" type="color"></label>
+            <label>Текст<input id="textColor" type="color"></label>
+          </div>
+          <label>Размер вопроса <output id="questionSizeOut"></output><input id="questionSize" type="range" min="18" max="46"></label>
+          <label>Размер ответов <output id="answerSizeOut"></output><input id="answerSize" type="range" min="14" max="30"></label>
+          <label>Свечение <output id="glowOut"></output><input id="glow" type="range" min="0" max="40"></label>
+          <label>Фон раздела<input id="backgroundFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+          <div id="backgroundPreview" class="asset-preview"></div>
+          <label>Персонаж / GIF<input id="characterFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+          <div id="characterPreview" class="asset-preview character"></div>
+          <button id="clearMedia" class="danger-ghost">Удалить медиа раздела</button>
+        </section>
+
+        <section class="tab-panel" data-panel="settings">
+          <h2>Правила матча</h2>
+          <label>Название команды<input id="teamName" maxlength="40"></label>
+          <div class="field-row">
+            <label>Баллы за ответ<input id="basePoints" type="number" min="0" max="1000"></label>
+            <label>Бонус за гол<input id="goalPoints" type="number" min="0" max="1000"></label>
+          </div>
+          <label class="toggle-line"><input id="shuffleAnswers" type="checkbox"><span>Перемешивать варианты</span></label>
+          <label class="toggle-line"><input id="soundEnabled" type="checkbox"><span>Звуковые сигналы</span></label>
+          <label class="toggle-line"><input id="reducedMotion" type="checkbox"><span>Уменьшить анимацию</span></label>
+          <label>Публичный HTTPS-адрес игры (для Genially)<input id="publicUrl" type="url" placeholder="https://example.com/football.html"></label>
+          <div class="info-box">Игра работает локально и не отправляет ответы ученика в интернет.</div>
+        </section>
+      </aside>
+
+      <section class="preview-pane" aria-label="Предпросмотр игры">
+        <div class="preview-toolbar"><span><i class="live-dot"></i> Живой предпросмотр</span><div><button data-scale=".75">75%</button><button class="active" data-scale="1">100%</button><button id="fullscreenBtn" aria-label="Во весь экран">⛶</button></div></div>
+        <div class="preview-stage"><div id="game" class="game-shell" tabindex="-1"></div></div>
+      </section>
+    </main>
+
+    <footer>Все права защищены и принадлежат Гальмиз Марии Александровне</footer>
+  </div>
+
+  <dialog id="exportDialog"><button class="dialog-close" aria-label="Закрыть">×</button><h2 id="dialogTitle">Код для Genially</h2><p id="dialogText"></p><textarea id="exportCode" rows="10" readonly></textarea><div class="dialog-actions"><button id="copyCode" class="accent">Скопировать код</button><button id="downloadLight">Скачать облегчённый HTML</button></div><p id="copyStatus" class="success-message" aria-live="polite"></p></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
