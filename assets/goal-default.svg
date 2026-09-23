@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650">
+<defs>
+ <pattern id="net" width="55" height="55" patternUnits="userSpaceOnUse"><path d="M0 0H55V55H0Z" fill="none" stroke="#fff" stroke-opacity=".82" stroke-width="3"/></pattern>
+ <filter id="shadow"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-opacity=".35"/></filter>
+ <linearGradient id="frame" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset=".48" stop-color="#e7ecef"/><stop offset="1" stop-color="#bfc8ce"/></linearGradient>
+</defs>
+<g filter="url(#shadow)">
+ <path d="M85 125H1115V565H85Z" fill="url(#net)" stroke="none"/>
+ <path d="M85 125H1115V565H85Z" fill="none" stroke="url(#frame)" stroke-width="34" stroke-linejoin="round"/>
+ <path d="M85 125L28 72M1115 125L1172 72M85 565L28 604M1115 565L1172 604M28 72H1172V604H28Z" fill="none" stroke="#e7ecef" stroke-width="16" stroke-linejoin="round" opacity=".95"/>
+</g></svg>
