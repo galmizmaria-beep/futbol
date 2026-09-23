@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#071b14">
   <title>Футбол — редактор учебной игры</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="base.css?v=2.6.1">
-  <link rel="stylesheet" href="styles.css?v=2.6.1">
-  <link rel="stylesheet" href="gameplay.css?v=2.6.1">
+  <link rel="stylesheet" href="base.css?v=2.7.0">
+  <link rel="stylesheet" href="styles.css?v=2.7.0">
+  <link rel="stylesheet" href="gameplay.css?v=2.7.0">
 </head>
 <body>
   <div id="app">
@@ -70,6 +70,26 @@
             <label>Вратарь команды соперника<input id="fieldKeeperFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
             <div id="fieldKeeperPreview" class="asset-preview character">Вратарь соперника не загружен</div>
             <p class="panel-note">Нажмите на игрока или вратаря соперника в предпросмотре. Появится зелёная пунктирная рамка: перетаскивайте объект за саму рамку, а маркер в углу используйте для изменения размера.</p>
+            <div class="field-play-settings">
+              <h4>Пасы между игроками</h4>
+              <label>Режим пасов
+                <select id="fieldPassMode">
+                  <option value="free">Свободные пасы между игроками</option>
+                  <option value="ordered">Строго по порядку</option>
+                </select>
+              </label>
+              <label>Анимация игроков по умолчанию
+                <select id="fieldAnimation">
+                  <option value="none">Без анимации</option>
+                  <option value="pulse">Пульсация</option>
+                  <option value="bounce">Подпрыгивание</option>
+                  <option value="sway">Покачивание</option>
+                  <option value="float">Парение</option>
+                  <option value="spin">Лёгкий поворот</option>
+                </select>
+              </label>
+              <p class="panel-note">В свободном режиме эту анимацию можно использовать для всех игроков, а для каждого игрока отдельно выбрать свой эффект во вкладке «Игроки». В режиме «Строго по порядку» следующий игрок подсвечивается и увеличивается.</p>
+            </div>
             <details class="geometry-panel">
               <summary>Подогнать графическую разметку поля под фон</summary>
               <div class="field-row"><label>Центр X<input id="fieldMarkX" type="range" min="10" max="90"></label><label>Центр Y<input id="fieldMarkY" type="range" min="10" max="90"></label></div>
@@ -179,6 +199,6 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script src="i18n.js?v=2.6.1"></script>\n  <script src="core.js?v=2.6.1"></script>\n  <script src="game.js?v=2.6.1"></script>\n  <script src="editor.js?v=2.6.1"></script>
+  <script src="i18n.js?v=2.7.0"></script>\n  <script src="core.js?v=2.7.0"></script>\n  <script src="game.js?v=2.7.0"></script>\n  <script src="editor.js?v=2.7.0"></script>
 </body>
 </html>
