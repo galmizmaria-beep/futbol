@@ -254,3 +254,24 @@
   pointer-events:none;
 }
 .field-opponent-keeper .keeper-number{top:-14px}
+
+/* 2.9.0 team goalkeeper is separate from the opponent */
+.field-team-keeper{
+  position:absolute;
+  width:var(--keeperSize,115px);
+  transform:translate(-50%,-50%);
+  z-index:4;
+  pointer-events:none;
+  box-sizing:border-box;
+}
+.field-team-keeper img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:190px;
+  object-fit:contain;
+  filter:drop-shadow(0 12px 12px #00150d88);
+}
+.field-team-keeper.active img{
+  filter:drop-shadow(0 0 8px var(--accent)) drop-shadow(0 0 18px color-mix(in srgb,var(--accent) 65%,transparent));
+}
