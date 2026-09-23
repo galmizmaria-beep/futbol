@@ -135,3 +135,45 @@
 }
 .play-only-mode.editor-preview-mode .field-player,
 .play-only-mode .editor-selected{outline:0!important;background:transparent!important}
+
+/* 2.6.0 adjustable scoring area */
+.goal-hit-area{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  z-index:6;
+  border:3px dashed #39ff75;
+  border-radius:10px;
+  background:#39ff7514;
+  box-shadow:0 0 0 2px #062f1dcc,0 0 22px #39ff7566;
+  cursor:move;
+  touch-action:none;
+  box-sizing:border-box;
+}
+.goal-hit-area>span{
+  position:absolute;
+  left:50%;
+  top:-28px;
+  transform:translateX(-50%);
+  padding:4px 8px;
+  border-radius:8px;
+  background:#062f1de8;
+  color:#8bffad;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.08em;
+  white-space:nowrap;
+  pointer-events:none;
+}
+.goal-hit-resize{
+  position:absolute;
+  right:-10px;
+  bottom:-10px;
+  width:20px;
+  height:20px;
+  border:2px solid #06341f;
+  border-radius:4px;
+  background:#39ff75;
+  box-shadow:0 4px 12px #00150d88;
+  cursor:nwse-resize;
+  touch-action:none;
+}
