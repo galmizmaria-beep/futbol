@@ -275,3 +275,11 @@
 .field-team-keeper.active img{
   filter:drop-shadow(0 0 8px var(--accent)) drop-shadow(0 0 18px color-mix(in srgb,var(--accent) 65%,transparent));
 }
+
+/* 2.10.0 opponent goalkeeper animations + editor-only numbering */
+.field-opponent-keeper.keeper-anim-pulse img{animation:playerPulse 1.25s ease-in-out infinite}
+.field-opponent-keeper.keeper-anim-bounce img{animation:playerBounce 1.05s ease-in-out infinite}
+.field-opponent-keeper.keeper-anim-sway img{animation:playerSway 1.5s ease-in-out infinite}
+.field-opponent-keeper.keeper-anim-float img{animation:playerFloat 2s ease-in-out infinite}
+.field-opponent-keeper.keeper-anim-spin img{animation:playerSpin 2.3s ease-in-out infinite}
+.play-only-mode .player-number{display:none!important}
