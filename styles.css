@@ -77,3 +77,14 @@
   width:100%;
   margin-top:8px;
 }
+
+.keeper-bot-note{
+  margin:8px 0 14px;
+  padding:11px 12px;
+  border-radius:12px;
+  background:#eef8f3;
+  border:1px solid #d5e9de;
+  color:#34594a;
+  font-size:11px;
+  line-height:1.45;
+}
