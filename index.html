@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#071b14">
   <title>Футбол — редактор учебной игры</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="base.css?v=2.10.1">
-  <link rel="stylesheet" href="styles.css?v=2.10.1">
-  <link rel="stylesheet" href="gameplay.css?v=2.10.1">
+  <link rel="stylesheet" href="base.css?v=2.11.0">
+  <link rel="stylesheet" href="styles.css?v=2.11.0">
+  <link rel="stylesheet" href="gameplay.css?v=2.11.0">
 </head>
 <body>
   <div id="app">
@@ -198,7 +198,39 @@
             <label>Цвет интерфейса игры<input id="gameUiColor" type="color" value="#071b15" disabled title="Базовый цвет интерфейса"></label>
           </div>
           <label class="toggle-line"><input id="mathPreviewEnabled" type="checkbox" checked><span>Предпросмотр математических формул</span></label>
-          <div class="math-help"><b>Математический язык:</b> используйте <code>$x^2$</code>, <code>$$\frac{a}{b}$$</code>, <code>\(x+1\)</code> или <code>\[\sqrt{x}\]</code>.</div>
+          <div class="math-help"><b>Математический язык:</b> используйте <code>$x^2$</code>, <code>$\frac{a}{b}$</code>, <code>\(x+1\)</code> или <code>\[\sqrt{x}\]</code>.</div>
+
+          <div class="result-editor">
+            <div class="panel-kicker">ФИНАЛ ИГРЫ</div>
+            <h3>Окно победы</h3>
+            <label>Название<input id="winTitle" type="text" maxlength="80"></label>
+            <label>Картинка / GIF<input id="winAssetFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+            <div id="winAssetPreview" class="asset-preview character">Картинка не загружена</div>
+            <div class="field-row colors">
+              <label>Цвет окна<input id="winCardColor" type="color"></label>
+              <label>Фон<input id="winBgColor" type="color"></label>
+            </div>
+            <div class="field-row colors">
+              <label>Цвет текста<input id="winTextColor" type="color"></label>
+              <label>Свечение<select id="winGlow"><option value="none">Без свечения</option><option value="soft">Мягкое</option><option value="strong">Яркое</option></select></label>
+            </div>
+            <button id="previewWinScreen" type="button">Предпросмотр победы</button>
+
+            <h3>Окно поражения</h3>
+            <label>Название<input id="loseTitle" type="text" maxlength="80"></label>
+            <label>Картинка / GIF<input id="loseAssetFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+            <div id="loseAssetPreview" class="asset-preview character">Картинка не загружена</div>
+            <div class="field-row colors">
+              <label>Цвет окна<input id="loseCardColor" type="color"></label>
+              <label>Фон<input id="loseBgColor" type="color"></label>
+            </div>
+            <div class="field-row colors">
+              <label>Цвет текста<input id="loseTextColor" type="color"></label>
+              <label>Свечение<select id="loseGlow"><option value="none">Без свечения</option><option value="soft">Мягкое</option><option value="strong">Яркое</option></select></label>
+            </div>
+            <button id="previewLoseScreen" type="button">Предпросмотр поражения</button>
+            <p class="panel-note">Победа показывается после забитого гола, если осталась хотя бы одна жизнь. Если жизни закончились раньше гола, показывается поражение. В финальном окне автоматически выводятся пройденные задания, время и баллы.</p>
+          </div>
         </section>
       </aside>
 
@@ -221,6 +253,6 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script src="i18n.js?v=2.10.1"></script>\n  <script src="core.js?v=2.10.1"></script>\n  <script src="game.js?v=2.10.1"></script>\n  <script src="editor.js?v=2.10.1"></script>
+  <script src="i18n.js?v=2.11.0"></script>\n  <script src="core.js?v=2.11.0"></script>\n  <script src="game.js?v=2.11.0"></script>\n  <script src="editor.js?v=2.11.0"></script>
 </body>
 </html>
