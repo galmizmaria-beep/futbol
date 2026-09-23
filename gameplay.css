@@ -177,3 +177,7 @@
   cursor:nwse-resize;
   touch-action:none;
 }
+
+.field-goal-flight{transition:left .55s cubic-bezier(.18,.8,.2,1),top .55s cubic-bezier(.18,.8,.2,1),transform .55s!important;z-index:25!important}
+.field-shot-hint{position:absolute;left:50%;top:82px;transform:translateX(-50%);z-index:90;padding:10px 15px;border-radius:12px;background:#071b15e8;color:#fff;font-size:13px;font-weight:850;border:1px solid #ffffff22;box-shadow:0 12px 30px #0007}
+.field-goal-flash{background:radial-gradient(circle at 50% 45%,#11884dd9,#00110be8 72%);font-size:64px}
