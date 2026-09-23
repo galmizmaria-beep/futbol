@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#071b14">
   <title>Футбол — редактор учебной игры</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="base.css?v=2.3.2">
-  <link rel="stylesheet" href="styles.css?v=2.3.2">
-  <link rel="stylesheet" href="gameplay.css?v=2.3.2">
+  <link rel="stylesheet" href="base.css?v=2.4.0">
+  <link rel="stylesheet" href="styles.css?v=2.4.0">
+  <link rel="stylesheet" href="gameplay.css?v=2.4.0">
 </head>
 <body>
   <div id="app">
@@ -27,6 +27,7 @@
           <button class="active" data-tab="project">Проект</button>
           <button data-tab="mode">Режим</button>
           <button data-tab="players">Игроки</button>
+          <button data-tab="tasks">Задания</button>
           <button data-tab="design">Дизайн</button>
         </div>
 
@@ -84,10 +85,6 @@
             <label>Изображение ворот<input id="goalFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
             <div id="goalPreview" class="asset-preview character">Ворота не загружены</div>
             <label>Сложность вратаря<select id="keeperDifficulty"><option value="easy">Легко</option><option value="normal" selected>Обычно</option><option value="hard">Сложно</option></select></label>
-            <div class="keeper-task-box">
-              <div class="panel-kicker">ЗАДАНИЕ ДЛЯ РЕЖИМА «ВРАТАРЬ»</div>
-              <div id="keeperTaskEditor"></div>
-            </div>
             <details class="geometry-panel" open>
               <summary>Положение и размеры объектов</summary>
               <h4>Ворота</h4>
@@ -105,11 +102,26 @@
 
         <section class="tab-panel" data-panel="players">
           <div class="section-heading"><div><div class="panel-kicker">СОСТАВ КОМАНДЫ</div><h2>До 11 футболистов</h2></div><button id="addPlayer" class="round-add">＋</button></div>
-          <p class="panel-note">Можно загрузить PNG, JPG, WebP или GIF. Статичные изображения автоматически уменьшаются и сжимаются перед сохранением в проект.</p>
+          <p class="panel-note">Загрузите игрока — он сразу станет выбранным в предпросмотре. Перетаскивайте его мышью, а зелёный маркер используйте для изменения размера.</p>
           <div id="playerList" class="upload-list"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="tasks">
+          <div id="fieldTasksWrap">
+            <div class="section-heading"><div><div class="panel-kicker">УЧЕБНЫЕ ЗАДАНИЯ</div><h2>Задания режима «Поле»</h2></div><button id="addQuestion" class="round-add">＋</button></div>
+            <p class="panel-note">Задания редактируются отдельно от игроков. При передаче мяча используется задание, закреплённое за соответствующим игроком.</p>
+            <div id="questionList" class="question-list"></div>
+            <div id="questionEditor" class="question-editor empty"><p>Выберите задание или добавьте новое.</p></div>
+          </div>
+          <div id="keeperTasksWrap" hidden>
+            <div class="panel-kicker">УЧЕБНЫЕ ЗАДАНИЯ</div>
+            <h2>Задания режима «Вратарь»</h2>
+            <p class="panel-note">Добавляйте любое количество заданий. Они будут появляться по очереди перед ударами.</p>
+            <div id="keeperTaskEditor"></div>
+          </div>
           <div class="global-task-style">
-            <div class="panel-kicker">ОФОРМЛЕНИЕ ВСЕХ ЗАДАНИЙ</div>
-            <h3>Единый стиль заданий</h3>
+            <div class="panel-kicker">ОФОРМЛЕНИЕ ЗАДАНИЙ</div>
+            <h3>Единый стиль всех окон заданий</h3>
             <div class="field-row colors">
               <label>Окно задания<input id="cardColor" type="color"></label>
               <label>Текст<input id="textColor" type="color"></label>
@@ -160,6 +172,6 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script src="i18n.js?v=2.3.2"></script>\n  <script src="core.js?v=2.3.2"></script>\n  <script src="game.js?v=2.3.2"></script>\n  <script src="editor.js?v=2.3.2"></script>
+  <script src="i18n.js?v=2.4.0"></script>\n  <script src="core.js?v=2.4.0"></script>\n  <script src="game.js?v=2.4.0"></script>\n  <script src="editor.js?v=2.4.0"></script>
 </body>
 </html>
