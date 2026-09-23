@@ -363,3 +363,36 @@
   font-size:13px;
 }
 .result-stats b{font-weight:950}
+
+/* 2.12.0 goalkeeper bot movement */
+.keeper-reading{
+  transition:left .12s ease-out,top .12s ease-out,transform .12s ease-out!important;
+}
+.keeper-dive-left{animation:keeperDiveLeft .62s cubic-bezier(.18,.75,.2,1)!important}
+.keeper-dive-right{animation:keeperDiveRight .62s cubic-bezier(.18,.75,.2,1)!important}
+.keeper-jump-high{animation:keeperJumpHigh .62s cubic-bezier(.18,.75,.2,1)!important}
+.keeper-drop-low{animation:keeperDropLow .62s cubic-bezier(.18,.75,.2,1)!important}
+@keyframes keeperDiveLeft{
+  0%{transform:translate(-50%,-50%) rotate(0) scale(1)}
+  45%{transform:translate(-62%,-62%) rotate(-24deg) scale(1.04)}
+  72%{transform:translate(-70%,-45%) rotate(-48deg) scale(1.02)}
+  100%{transform:translate(-50%,-50%) rotate(-62deg) scale(.98)}
+}
+@keyframes keeperDiveRight{
+  0%{transform:translate(-50%,-50%) rotate(0) scale(1)}
+  45%{transform:translate(-38%,-62%) rotate(24deg) scale(1.04)}
+  72%{transform:translate(-30%,-45%) rotate(48deg) scale(1.02)}
+  100%{transform:translate(-50%,-50%) rotate(62deg) scale(.98)}
+}
+@keyframes keeperJumpHigh{
+  0%{transform:translate(-50%,-50%) scale(1)}
+  42%{transform:translate(-50%,-82%) scale(1.06)}
+  72%{transform:translate(-50%,-66%) rotate(-4deg) scale(1.03)}
+  100%{transform:translate(-50%,-50%) scale(1)}
+}
+@keyframes keeperDropLow{
+  0%{transform:translate(-50%,-50%) rotate(0)}
+  48%{transform:translate(-50%,-34%) rotate(9deg) scale(.98)}
+  78%{transform:translate(-50%,-28%) rotate(20deg) scale(.96)}
+  100%{transform:translate(-50%,-50%) rotate(28deg) scale(.94)}
+}
