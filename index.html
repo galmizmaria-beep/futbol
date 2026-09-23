@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#071c17">
+  <meta name="theme-color" content="#071b14">
   <title>Футбол — редактор учебной игры</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="gameplay.css">
@@ -23,68 +24,91 @@
     <main class="workspace">
       <aside class="editor-pane">
         <div class="editor-tabs" role="tablist" aria-label="Разделы редактора">
-          <button class="active" data-tab="content">Содержание</button>
-          <button data-tab="players">Футболисты</button>
+          <button class="active" data-tab="project">Проект</button>
+          <button data-tab="mode">Режим</button>
+          <button data-tab="players">Игроки</button>
+          <button data-tab="tasks">Задания</button>
           <button data-tab="design">Дизайн</button>
-          <button data-tab="settings">Настройки</button>
         </div>
 
-        <section class="tab-panel active" data-panel="content">
+        <section class="tab-panel active" data-panel="project">
+          <div class="panel-kicker">ОСНОВНЫЕ НАСТРОЙКИ</div>
+          <h2>Проект и язык</h2>
+          <label>Язык игры
+            <select id="localeSelect">
+              <option value="ru">Русский</option><option value="en">English</option><option value="es">Español</option>
+              <option value="de">Deutsch</option><option value="fr">Français</option><option value="it">Italiano</option>
+              <option value="pt">Português</option><option value="pl">Polski</option><option value="uk">Українська</option>
+              <option value="kk">Қазақша</option><option value="tr">Türkçe</option><option value="ar">العربية</option>
+              <option value="zh">中文</option><option value="ja">日本語</option><option value="ko">한국어</option>
+              <option value="nl">Nederlands</option><option value="sv">Svenska</option><option value="cs">Čeština</option>
+              <option value="ro">Română</option><option value="el">Ελληνικά</option>
+            </select>
+          </label>
+          <div class="info-box">Переводятся системные элементы самой игры. Ваши вопросы, варианты ответов и название проекта остаются такими, как вы их ввели.</div>
           <div class="field-row">
-            <label>Язык игры<select id="localeSelect"><option value="ru">Русский</option><option value="en">English</option></select></label>
-            <label>Сложность<select id="difficultySelect"><option value="easy">Легко</option><option value="normal" selected>Обычно</option><option value="hard">Сложно</option></select></label>
+            <label>Жизни<input id="livesInput" type="number" min="1" max="20" value="3"></label>
+            <label>Таймер, сек<input id="timerInput" type="number" min="15" max="3600" value="180"></label>
           </div>
-          <div class="section-heading"><h2>Разделы игры</h2><button id="restartPreview" class="text-btn">↻ С начала</button></div>
-          <div id="sectionTabs" class="section-tabs"></div>
-          <div class="section-card">
-            <label class="toggle-line"><input id="sectionEnabled" type="checkbox" checked><span>Раздел включён</span></label>
-            <label>Заголовок раздела<input id="sectionTitle" maxlength="60"></label>
-            <label>Вступительный текст<textarea id="sectionIntro" rows="3" maxlength="500"></textarea></label>
+          <label class="toggle-line"><input id="timerEnabled" type="checkbox" checked><span>Показывать таймер в игре</span></label>
+          <label class="toggle-line"><input id="soundEnabled" type="checkbox" checked><span>Звуковые сигналы</span></label>
+          <label class="toggle-line"><input id="reducedMotion" type="checkbox"><span>Уменьшить анимацию</span></label>
+          <label>Публичный HTTPS-адрес игры (для Genially)<input id="publicUrl" type="url" placeholder="https://example.com/football.html"></label>
+        </section>
+
+        <section class="tab-panel" data-panel="mode">
+          <div class="panel-kicker">ИГРОВАЯ МЕХАНИКА</div>
+          <h2>Режим игры</h2>
+          <div class="mode-cards">
+            <button class="mode-card active" data-mode-choice="field"><b>⚽ Поле</b><span>11 игроков, передачи и задания при каждом пасе</span></button>
+            <button class="mode-card" data-mode-choice="keeper"><b>🥅 Вратарь</b><span>Наводящая линия, удар по воротам и реакция вратаря</span></button>
           </div>
-          <div class="section-heading"><h2>Задания</h2><button id="addQuestion" class="round-add">＋</button></div>
+          <div id="fieldMediaSettings">
+            <h3>Поле</h3>
+            <label>Фон игрового поля<input id="fieldBackgroundFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+            <div id="fieldBackgroundPreview" class="asset-preview">Фон не загружен</div>
+            <p class="panel-note">После загрузки игроков перемещайте их в предпросмотре за зелёный квадрат.</p>
+          </div>
+          <div id="keeperMediaSettings" hidden>
+            <h3>Вратарь и ворота</h3>
+            <label>Фон режима<input id="keeperBackgroundFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+            <div id="keeperBackgroundPreview" class="asset-preview">Фон не загружен</div>
+            <label>Изображение / GIF вратаря<input id="keeperFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+            <div id="keeperPreview" class="asset-preview character">Вратарь не загружен</div>
+            <label>Изображение ворот<input id="goalFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+            <div id="goalPreview" class="asset-preview character">Ворота не загружены</div>
+            <label>Сложность вратаря<select id="keeperDifficulty"><option value="easy">Легко</option><option value="normal" selected>Обычно</option><option value="hard">Сложно</option></select></label>
+          </div>
+        </section>
+
+        <section class="tab-panel" data-panel="players">
+          <div class="section-heading"><div><div class="panel-kicker">СОСТАВ КОМАНДЫ</div><h2>До 11 футболистов</h2></div><button id="addPlayer" class="round-add">＋</button></div>
+          <p class="panel-note">Можно загрузить PNG, JPG, WebP или GIF. Статичные изображения автоматически уменьшаются и сжимаются перед сохранением в проект.</p>
+          <div id="playerList" class="upload-list"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="tasks">
+          <div class="section-heading"><div><div class="panel-kicker">УЧЕБНЫЕ ЗАДАНИЯ</div><h2>Банк вопросов</h2></div><button id="addQuestion" class="round-add">＋</button></div>
           <div id="questionList" class="question-list"></div>
           <div id="questionEditor" class="question-editor empty"><p>Выберите задание или добавьте новое.</p></div>
         </section>
 
-        <section class="tab-panel" data-panel="players">
-          <div class="panel-kicker">СОСТАВ КОМАНДЫ</div>
-          <h2>Выбор футболиста</h2>
-          <p class="panel-note">Ученик выбирает героя перед входом в раздевалку. Все персонажи оригинальные и встроены в игру.</p>
-          <div id="playerRosterEditor" class="player-roster-editor"></div>
-          <label>Имя выбранного футболиста<input id="playerName" maxlength="30"></label>
-          <label>Амплуа<select id="playerRole"><option value="forward">Нападающий</option><option value="playmaker">Плеймейкер</option><option value="winger">Крайний игрок</option><option value="defender">Защитник</option></select></label>
-          <div class="info-box">Роль влияет на подсказки: нападающий сильнее бьёт, плеймейкер точнее пасует, крайний игрок быстрее ведёт мяч, защитник лучше перехватывает.</div>
-        </section>
-
         <section class="tab-panel" data-panel="design">
-          <h2>Оформление</h2>
+          <div class="panel-kicker">ВНЕШНИЙ ВИД</div>
+          <h2>Цвета и размеры</h2>
           <div class="field-row colors">
             <label>Акцент<input id="accentColor" type="color"></label>
-            <label>Карточка<input id="cardColor" type="color"></label>
+            <label>Окно задания<input id="cardColor" type="color"></label>
+          </div>
+          <div class="field-row colors">
             <label>Текст<input id="textColor" type="color"></label>
+            <label>Кнопки<input id="buttonColor" type="color"></label>
           </div>
           <label>Размер вопроса <output id="questionSizeOut"></output><input id="questionSize" type="range" min="18" max="46"></label>
           <label>Размер ответов <output id="answerSizeOut"></output><input id="answerSize" type="range" min="14" max="30"></label>
-          <label>Свечение <output id="glowOut"></output><input id="glow" type="range" min="0" max="40"></label>
-          <label>Фон раздела<input id="backgroundFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
-          <div id="backgroundPreview" class="asset-preview"></div>
-          <label>Персонаж / GIF<input id="characterFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
-          <div id="characterPreview" class="asset-preview character"></div>
-          <button id="clearMedia" class="danger-ghost">Удалить медиа раздела</button>
-        </section>
-
-        <section class="tab-panel" data-panel="settings">
-          <h2>Правила матча</h2>
-          <label>Название команды<input id="teamName" maxlength="40"></label>
-          <div class="field-row">
-            <label>Баллы за ответ<input id="basePoints" type="number" min="0" max="1000"></label>
-            <label>Бонус за гол<input id="goalPoints" type="number" min="0" max="1000"></label>
-          </div>
-          <label class="toggle-line"><input id="shuffleAnswers" type="checkbox"><span>Перемешивать варианты</span></label>
-          <label class="toggle-line"><input id="soundEnabled" type="checkbox"><span>Звуковые сигналы</span></label>
-          <label class="toggle-line"><input id="reducedMotion" type="checkbox"><span>Уменьшить анимацию</span></label>
-          <label>Публичный HTTPS-адрес игры (для Genially)<input id="publicUrl" type="url" placeholder="https://example.com/football.html"></label>
-          <div class="info-box">Игра работает локально и не отправляет ответы ученика в интернет.</div>
+          <label>Прозрачность окна задания <output id="cardOpacityOut"></output><input id="cardOpacity" type="range" min="55" max="100"></label>
+          <label class="toggle-line"><input id="mathPreviewEnabled" type="checkbox" checked><span>Предпросмотр математических формул</span></label>
+          <div class="math-help"><b>Математический язык:</b> используйте <code>$x^2$</code>, <code>$$\frac{a}{b}$$</code>, <code>\(x+1\)</code> или <code>\[\sqrt{x}\]</code>.</div>
         </section>
       </aside>
 
@@ -94,7 +118,7 @@
           <div class="action-group"><button id="newBtn">＋ Новый</button><button id="loadBtn">⇧ Загрузить</button><button id="saveBtn">⇩ Сохранить</button></div>
           <div class="action-group export-actions"><button id="htmlBtn" class="accent">Скачать HTML</button><button id="minifyBtn">Облегчить код</button><button id="embedBtn">Код для Genially</button></div>
         </div>
-        <div class="preview-toolbar"><span><i class="live-dot"></i> Интерактивный предпросмотр</span><div><button data-scale=".75">75%</button><button class="active" data-scale="1">100%</button><button id="fullscreenBtn" aria-label="Во весь экран">⛶</button></div></div>
+        <div class="preview-toolbar"><span><i class="live-dot"></i> Интерактивный предпросмотр</span><div><button id="restartPreview">↻</button><button data-scale=".75">75%</button><button class="active" data-scale="1">100%</button><button id="fullscreenBtn" aria-label="Во весь экран">⛶</button></div></div>
         <div class="preview-stage"><div id="game" class="game-shell" tabindex="-1"></div></div>
       </section>
     </main>
@@ -104,6 +128,8 @@
 
   <dialog id="exportDialog"><button class="dialog-close" aria-label="Закрыть">×</button><h2 id="dialogTitle">Код для Genially</h2><p id="dialogText"></p><textarea id="exportCode" rows="10" readonly></textarea><div class="dialog-actions"><button id="copyCode" class="accent">Скопировать код</button><button id="downloadLight">Скачать облегчённый HTML</button></div><p id="copyStatus" class="success-message" aria-live="polite"></p></dialog>
   <div id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script src="i18n.js"></script>\n  <script src="core.js"></script>\n  <script src="game.js"></script>\n  <script src="editor.js"></script>
 </body>
 </html>
