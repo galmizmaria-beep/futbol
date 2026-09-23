@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#071b14">
   <title>Футбол — редактор учебной игры</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="base.css?v=2.0.1">
-  <link rel="stylesheet" href="styles.css?v=2.0.1">
-  <link rel="stylesheet" href="gameplay.css?v=2.0.1">
+  <link rel="stylesheet" href="base.css?v=2.1.0">
+  <link rel="stylesheet" href="styles.css?v=2.1.0">
+  <link rel="stylesheet" href="gameplay.css?v=2.1.0">
 </head>
 <body>
   <div id="app">
@@ -51,7 +51,7 @@
             <label>Таймер, сек<input id="timerInput" type="number" min="15" max="3600" value="180"></label>
           </div>
           <label class="toggle-line"><input id="timerEnabled" type="checkbox" checked><span>Показывать таймер в игре</span></label>
-          <label class="toggle-line"><input id="soundEnabled" type="checkbox" checked><span>Звуковые сигналы</span></label>
+          <label class="toggle-line"><input id="soundEnabled" type="checkbox" checked><span>Звуковые эффекты: пас, удар, правильный и неправильный ответ</span></label>
           <label class="toggle-line"><input id="reducedMotion" type="checkbox"><span>Уменьшить анимацию</span></label>
           <label>Публичный HTTPS-адрес игры (для Genially)<input id="publicUrl" type="url" placeholder="https://example.com/football.html"></label>
         </section>
@@ -67,7 +67,9 @@
             <h3>Поле</h3>
             <label>Фон игрового поля<input id="fieldBackgroundFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
             <div id="fieldBackgroundPreview" class="asset-preview">Фон не загружен</div>
-            <p class="panel-note">После загрузки игроков перемещайте их в предпросмотре за зелёный квадрат.</p>
+            <label>Вратарь команды соперника<input id="fieldKeeperFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+            <div id="fieldKeeperPreview" class="asset-preview character">Вратарь соперника не загружен</div>
+            <p class="panel-note">Нажмите на игрока или вратаря соперника в предпросмотре. Появится зелёная пунктирная рамка: перетаскивайте объект за саму рамку, а маркер в углу используйте для изменения размера.</p>
           </div>
           <div id="keeperMediaSettings" hidden>
             <h3>Вратарь и ворота</h3>
@@ -118,7 +120,7 @@
           <div class="action-group"><button id="newBtn">＋ Новый</button><button id="loadBtn">⇧ Загрузить</button><button id="saveBtn">⇩ Сохранить</button></div>
           <div class="action-group export-actions"><button id="htmlBtn" class="accent">Скачать HTML</button><button id="minifyBtn">Облегчить код</button><button id="embedBtn">Код для Genially</button></div>
         </div>
-        <div class="preview-toolbar"><span><i class="live-dot"></i> Интерактивный предпросмотр</span><div><button id="restartPreview">↻</button><button data-scale=".75">75%</button><button class="active" data-scale="1">100%</button><button id="fullscreenBtn" aria-label="Во весь экран">⛶</button></div></div>
+        <div class="preview-toolbar"><span><i class="live-dot"></i> Интерактивный предпросмотр</span><div><button id="testGame" class="test-game-btn">▶ Тест игры</button><button id="restartPreview">↻</button><button data-scale=".75">75%</button><button class="active" data-scale="1">100%</button><button id="fullscreenBtn" aria-label="Во весь экран">⛶</button></div></div>
         <div class="preview-stage"><div id="game" class="game-shell" tabindex="-1"></div></div>
       </section>
     </main>
@@ -130,6 +132,6 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script src="i18n.js?v=2.0.1"></script>\n  <script src="core.js?v=2.0.1"></script>\n  <script src="game.js?v=2.0.1"></script>\n  <script src="editor.js?v=2.0.1"></script>
+  <script src="i18n.js?v=2.1.0"></script>\n  <script src="core.js?v=2.1.0"></script>\n  <script src="game.js?v=2.1.0"></script>\n  <script src="editor.js?v=2.1.0"></script>
 </body>
 </html>
