@@ -7,3 +7,9 @@
 [data-panel="tasks"] .global-task-style{margin-top:24px}
 #keeperTasksWrap{margin-bottom:12px}
 @media(max-width:1100px){.editor-tabs{grid-template-columns:repeat(5,1fr)}}
+
+.field-play-settings{margin:14px 0;padding:14px;border:1px solid #dbe6e0;border-radius:14px;background:#fff}
+.field-play-settings h4{margin:0 0 10px;color:#245f47}
+.field-play-settings label{margin-top:9px}
+.player-animation-label{display:block;margin-top:7px;font-size:10px;color:#61756b}
+.player-animation-label select{margin-top:4px;padding:7px 9px;font-size:11px}
