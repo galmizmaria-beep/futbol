@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#071b14">
   <title>Футбол — редактор учебной игры</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="base.css?v=2.1.0">
-  <link rel="stylesheet" href="styles.css?v=2.1.0">
-  <link rel="stylesheet" href="gameplay.css?v=2.1.0">
+  <link rel="stylesheet" href="base.css?v=2.2.0">
+  <link rel="stylesheet" href="styles.css?v=2.2.0">
+  <link rel="stylesheet" href="gameplay.css?v=2.2.0">
 </head>
 <body>
   <div id="app">
@@ -27,7 +27,6 @@
           <button class="active" data-tab="project">Проект</button>
           <button data-tab="mode">Режим</button>
           <button data-tab="players">Игроки</button>
-          <button data-tab="tasks">Задания</button>
           <button data-tab="design">Дизайн</button>
         </div>
 
@@ -70,6 +69,11 @@
             <label>Вратарь команды соперника<input id="fieldKeeperFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
             <div id="fieldKeeperPreview" class="asset-preview character">Вратарь соперника не загружен</div>
             <p class="panel-note">Нажмите на игрока или вратаря соперника в предпросмотре. Появится зелёная пунктирная рамка: перетаскивайте объект за саму рамку, а маркер в углу используйте для изменения размера.</p>
+            <details class="geometry-panel">
+              <summary>Подогнать графическую разметку поля под фон</summary>
+              <div class="field-row"><label>Центр X<input id="fieldMarkX" type="range" min="10" max="90"></label><label>Центр Y<input id="fieldMarkY" type="range" min="10" max="90"></label></div>
+              <div class="field-row"><label>Ширина<input id="fieldMarkW" type="range" min="20" max="100"></label><label>Высота<input id="fieldMarkH" type="range" min="20" max="100"></label></div>
+            </details>
           </div>
           <div id="keeperMediaSettings" hidden>
             <h3>Вратарь и ворота</h3>
@@ -80,6 +84,18 @@
             <label>Изображение ворот<input id="goalFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
             <div id="goalPreview" class="asset-preview character">Ворота не загружены</div>
             <label>Сложность вратаря<select id="keeperDifficulty"><option value="easy">Легко</option><option value="normal" selected>Обычно</option><option value="hard">Сложно</option></select></label>
+            <details class="geometry-panel" open>
+              <summary>Положение и размеры объектов</summary>
+              <h4>Ворота</h4>
+              <div class="field-row"><label>X<input id="goalX" type="range" min="5" max="95"></label><label>Y<input id="goalY" type="range" min="5" max="90"></label></div>
+              <div class="field-row"><label>Ширина<input id="goalW" type="range" min="15" max="100"></label><label>Высота<input id="goalH" type="range" min="10" max="90"></label></div>
+              <h4>Вратарь</h4>
+              <div class="field-row"><label>X<input id="keeperX" type="range" min="5" max="95"></label><label>Y<input id="keeperY" type="range" min="5" max="95"></label></div>
+              <label>Размер<input id="keeperSize" type="range" min="40" max="260"></label>
+              <h4>Мяч</h4>
+              <div class="field-row"><label>X<input id="ballX" type="range" min="5" max="95"></label><label>Y<input id="ballY" type="range" min="5" max="95"></label></div>
+              <label>Размер<input id="ballSize" type="range" min="18" max="100"></label>
+            </details>
           </div>
         </section>
 
@@ -87,28 +103,35 @@
           <div class="section-heading"><div><div class="panel-kicker">СОСТАВ КОМАНДЫ</div><h2>До 11 футболистов</h2></div><button id="addPlayer" class="round-add">＋</button></div>
           <p class="panel-note">Можно загрузить PNG, JPG, WebP или GIF. Статичные изображения автоматически уменьшаются и сжимаются перед сохранением в проект.</p>
           <div id="playerList" class="upload-list"></div>
-        </section>
-
-        <section class="tab-panel" data-panel="tasks">
-          <div class="section-heading"><div><div class="panel-kicker">УЧЕБНЫЕ ЗАДАНИЯ</div><h2>Банк вопросов</h2></div><button id="addQuestion" class="round-add">＋</button></div>
-          <div id="questionList" class="question-list"></div>
-          <div id="questionEditor" class="question-editor empty"><p>Выберите задание или добавьте новое.</p></div>
+          <div class="global-task-style">
+            <div class="panel-kicker">ОФОРМЛЕНИЕ ВСЕХ ЗАДАНИЙ</div>
+            <h3>Единый стиль заданий</h3>
+            <div class="field-row colors">
+              <label>Окно задания<input id="cardColor" type="color"></label>
+              <label>Текст<input id="textColor" type="color"></label>
+            </div>
+            <div class="field-row colors">
+              <label>Кнопки<input id="buttonColor" type="color"></label>
+              <label>Фон строки ответа<input id="inputBg" type="color"></label>
+            </div>
+            <label>Свечение<select id="glowSelect"><option value="none">Без свечения</option><option value="soft">Мягкое</option><option value="strong">Яркое</option></select></label>
+            <div class="field-row">
+              <label>Шрифт задания<select id="questionFont"><option value="Inter, sans-serif">Inter</option><option value="Arial, sans-serif">Arial</option><option value="Georgia, serif">Georgia</option><option value="'Trebuchet MS', sans-serif">Trebuchet</option><option value="'Courier New', monospace">Courier New</option></select></label>
+              <label>Шрифт ответа<select id="answerFont"><option value="Inter, sans-serif">Inter</option><option value="Arial, sans-serif">Arial</option><option value="Georgia, serif">Georgia</option><option value="'Trebuchet MS', sans-serif">Trebuchet</option><option value="'Courier New', monospace">Courier New</option></select></label>
+            </div>
+            <label>Размер вопроса <output id="questionSizeOut"></output><input id="questionSize" type="range" min="18" max="46"></label>
+            <label>Размер ответов <output id="answerSizeOut"></output><input id="answerSize" type="range" min="14" max="30"></label>
+            <label>Прозрачность окна задания <output id="cardOpacityOut"></output><input id="cardOpacity" type="range" min="55" max="100"></label>
+          </div>
         </section>
 
         <section class="tab-panel" data-panel="design">
           <div class="panel-kicker">ВНЕШНИЙ ВИД</div>
           <h2>Цвета и размеры</h2>
           <div class="field-row colors">
-            <label>Акцент<input id="accentColor" type="color"></label>
-            <label>Окно задания<input id="cardColor" type="color"></label>
+            <label>Акцент игры<input id="accentColor" type="color"></label>
+            <label>Цвет интерфейса игры<input id="gameUiColor" type="color" value="#071b15" disabled title="Базовый цвет интерфейса"></label>
           </div>
-          <div class="field-row colors">
-            <label>Текст<input id="textColor" type="color"></label>
-            <label>Кнопки<input id="buttonColor" type="color"></label>
-          </div>
-          <label>Размер вопроса <output id="questionSizeOut"></output><input id="questionSize" type="range" min="18" max="46"></label>
-          <label>Размер ответов <output id="answerSizeOut"></output><input id="answerSize" type="range" min="14" max="30"></label>
-          <label>Прозрачность окна задания <output id="cardOpacityOut"></output><input id="cardOpacity" type="range" min="55" max="100"></label>
           <label class="toggle-line"><input id="mathPreviewEnabled" type="checkbox" checked><span>Предпросмотр математических формул</span></label>
           <div class="math-help"><b>Математический язык:</b> используйте <code>$x^2$</code>, <code>$$\frac{a}{b}$$</code>, <code>\(x+1\)</code> или <code>\[\sqrt{x}\]</code>.</div>
         </section>
@@ -132,6 +155,6 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script src="i18n.js?v=2.1.0"></script>\n  <script src="core.js?v=2.1.0"></script>\n  <script src="game.js?v=2.1.0"></script>\n  <script src="editor.js?v=2.1.0"></script>
+  <script src="i18n.js?v=2.2.0"></script>\n  <script src="core.js?v=2.2.0"></script>\n  <script src="game.js?v=2.2.0"></script>\n  <script src="editor.js?v=2.2.0"></script>
 </body>
 </html>
