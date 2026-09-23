@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#071b14">
   <title>Футбол — редактор учебной игры</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="base.css?v=2.2.1">
-  <link rel="stylesheet" href="styles.css?v=2.2.1">
-  <link rel="stylesheet" href="gameplay.css?v=2.2.1">
+  <link rel="stylesheet" href="base.css?v=2.3.0">
+  <link rel="stylesheet" href="styles.css?v=2.3.0">
+  <link rel="stylesheet" href="gameplay.css?v=2.3.0">
 </head>
 <body>
   <div id="app">
@@ -84,6 +84,10 @@
             <label>Изображение ворот<input id="goalFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
             <div id="goalPreview" class="asset-preview character">Ворота не загружены</div>
             <label>Сложность вратаря<select id="keeperDifficulty"><option value="easy">Легко</option><option value="normal" selected>Обычно</option><option value="hard">Сложно</option></select></label>
+            <div class="keeper-task-box">
+              <div class="panel-kicker">ЗАДАНИЕ ДЛЯ РЕЖИМА «ВРАТАРЬ»</div>
+              <div id="keeperTaskEditor"></div>
+            </div>
             <details class="geometry-panel" open>
               <summary>Положение и размеры объектов</summary>
               <h4>Ворота</h4>
@@ -151,10 +155,11 @@
     <footer>Все права защищены и принадлежат Гальмиз Марии Александровне</footer>
   </div>
 
+  <dialog id="resumeDialog" class="resume-dialog"><h2>Продолжить работу?</h2><p>Найден сохранённый проект. Можно продолжить редактирование или начать заново.</p><div class="dialog-actions"><button id="resumeProject" class="accent">Продолжить редактирование</button><button id="resetProject">Сбросить проект</button></div></dialog>
   <dialog id="exportDialog"><button class="dialog-close" aria-label="Закрыть">×</button><h2 id="dialogTitle">Код для Genially</h2><p id="dialogText"></p><textarea id="exportCode" rows="10" readonly></textarea><div class="dialog-actions"><button id="copyCode" class="accent">Скопировать код</button><button id="downloadLight">Скачать облегчённый HTML</button></div><p id="copyStatus" class="success-message" aria-live="polite"></p></dialog>
   <div id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script src="i18n.js?v=2.2.1"></script>\n  <script src="core.js?v=2.2.1"></script>\n  <script src="game.js?v=2.2.1"></script>\n  <script src="editor.js?v=2.2.1"></script>
+  <script src="i18n.js?v=2.3.0"></script>\n  <script src="core.js?v=2.3.0"></script>\n  <script src="game.js?v=2.3.0"></script>\n  <script src="editor.js?v=2.3.0"></script>
 </body>
 </html>
