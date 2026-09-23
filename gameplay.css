@@ -181,3 +181,47 @@
 .field-goal-flight{transition:left .55s cubic-bezier(.18,.8,.2,1),top .55s cubic-bezier(.18,.8,.2,1),transform .55s!important;z-index:25!important}
 .field-shot-hint{position:absolute;left:50%;top:82px;transform:translateX(-50%);z-index:90;padding:10px 15px;border-radius:12px;background:#071b15e8;color:#fff;font-size:13px;font-weight:850;border:1px solid #ffffff22;box-shadow:0 12px 30px #0007}
 .field-goal-flash{background:radial-gradient(circle at 50% 45%,#11884dd9,#00110be8 72%);font-size:64px}
+
+/* 2.7.0 passing modes and player effects */
+.field-player.ordered-next{
+  transform:translate(-50%,-50%) scale(1.18);
+  z-index:18;
+  filter:drop-shadow(0 0 10px #c9ff52) drop-shadow(0 0 22px #5fff75);
+  animation:orderedTarget 1s ease-in-out infinite;
+}
+.field-opponent-keeper.ordered-next{
+  transform:translate(-50%,-50%) scale(1.12);
+  z-index:17;
+  filter:drop-shadow(0 0 12px #c9ff52) drop-shadow(0 0 24px #5fff75);
+  animation:orderedKeeperTarget 1s ease-in-out infinite;
+}
+@keyframes orderedTarget{
+  0%,100%{transform:translate(-50%,-50%) scale(1.13)}
+  50%{transform:translate(-50%,-50%) scale(1.24)}
+}
+@keyframes orderedKeeperTarget{
+  0%,100%{transform:translate(-50%,-50%) scale(1.08)}
+  50%{transform:translate(-50%,-50%) scale(1.17)}
+}
+.field-player.anim-pulse img,.field-player.anim-pulse .fallback-player{animation:playerPulse 1.25s ease-in-out infinite}
+.field-player.anim-bounce img,.field-player.anim-bounce .fallback-player{animation:playerBounce 1.05s ease-in-out infinite}
+.field-player.anim-sway img,.field-player.anim-sway .fallback-player{animation:playerSway 1.5s ease-in-out infinite}
+.field-player.anim-float img,.field-player.anim-float .fallback-player{animation:playerFloat 2s ease-in-out infinite}
+.field-player.anim-spin img,.field-player.anim-spin .fallback-player{animation:playerSpin 2.3s ease-in-out infinite}
+@keyframes playerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes playerBounce{0%,100%{transform:translateY(0)}45%{transform:translateY(-12px)}60%{transform:translateY(-7px)}}
+@keyframes playerSway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes playerFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes playerSpin{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+
+/* goalkeeper actively tracks the ball */
+.keeper-live .keeper-image,.keeper-live .keeper-css{
+  animation:keeperTrack 1.55s ease-in-out infinite;
+  transform-origin:50% 100%;
+}
+@keyframes keeperTrack{
+  0%,100%{transform:translate(-50%,-50%) translateX(-24px) translateY(0) rotate(-2deg)}
+  25%{transform:translate(-50%,-50%) translateX(0) translateY(-5px) rotate(0)}
+  50%{transform:translate(-50%,-50%) translateX(24px) translateY(0) rotate(2deg)}
+  75%{transform:translate(-50%,-50%) translateX(0) translateY(-7px) rotate(0)}
+}
