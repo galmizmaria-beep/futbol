@@ -9,13 +9,14 @@ function loadProject(e){const f=e.target.files?.[0];if(!f)return;f.text().then(t
 function inlineTaskInput(e){
   const pid=e.target.dataset.player;if(!pid)return;
   const p=project.players.find(x=>x.id===pid),q=project.questions.find(x=>x.id===p?.questionId);if(!p||!q)return;
+  activeQ=q.id;G.editPlayer=pid;G.previewQuestionId=q.id;G.task=true;
   const x=e.target;
   if(x.classList.contains('inline-type')){q.type=x.value;if(q.type==='order')q.options.forEach(o=>o.correct=false);renderPlayers()}
   else if(x.classList.contains('inline-question'))q.text=x.value;
   else if(x.classList.contains('inline-option-text'))q.options[+x.dataset.i].text=x.value;
   else if(x.classList.contains('inline-accepted'))q.accepted=x.value.split('\n').filter(Boolean);
   else if(x.classList.contains('inline-correct')){if(q.type==='single')q.options.forEach((o,i)=>o.correct=i===+x.dataset.i);else q.options[+x.dataset.i].correct=x.checked}
-  activeQ=q.id;G.editPlayer=pid;G.previewQuestionId=q.id;G.task=true;changed(false);renderGame()
+  changed(false);renderGame()
 }
 function bindEditor(){if(PLAY_ONLY)return;
   $$('.editor-tabs button').forEach(b=>b.onclick=()=>{$$('.editor-tabs button').forEach(x=>x.classList.toggle('active',x===b));$$('.tab-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===b.dataset.tab))});
