@@ -283,3 +283,22 @@
 .field-opponent-keeper.keeper-anim-float img{animation:playerFloat 2s ease-in-out infinite}
 .field-opponent-keeper.keeper-anim-spin img{animation:playerSpin 2.3s ease-in-out infinite}
 .play-only-mode .player-number{display:none!important}
+
+/* 2.10.1 editable team keeper */
+.editor-preview-mode .field-team-keeper{
+  pointer-events:auto;
+  cursor:move;
+  border:0;
+  padding:0;
+  background:transparent;
+}
+.editor-preview-mode .field-team-keeper.editor-selected{
+  outline:2px dashed #41ff82;
+  outline-offset:5px;
+}
+.editor-preview-mode .field-team-keeper .keeper-resize{
+  width:22px;
+  height:22px;
+  right:-13px;
+  bottom:-13px;
+}
