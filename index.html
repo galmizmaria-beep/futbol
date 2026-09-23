@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#071b14">
   <title>Футбол — редактор учебной игры</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="base.css?v=2.9.0">
-  <link rel="stylesheet" href="styles.css?v=2.9.0">
-  <link rel="stylesheet" href="gameplay.css?v=2.9.0">
+  <link rel="stylesheet" href="base.css?v=2.10.0">
+  <link rel="stylesheet" href="styles.css?v=2.10.0">
+  <link rel="stylesheet" href="gameplay.css?v=2.10.0">
 </head>
 <body>
   <div id="app">
@@ -67,9 +67,6 @@
             <h3>Поле</h3>
             <label>Фон игрового поля<input id="fieldBackgroundFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
             <div id="fieldBackgroundPreview" class="asset-preview">Фон не загружен</div>
-            <div class="keeper-number-note">Вратарь вашей команды — №1 в редакторе</div>
-            <label>Вратарь вашей команды — необязательно<input id="teamKeeperFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
-            <div id="teamKeeperPreview" class="asset-preview character">Вратарь вашей команды не загружен</div>
             <label>Где находятся ваши ворота
               <select id="fieldKeeperSide">
                 <option value="left">Слева</option>
@@ -78,6 +75,16 @@
             </label>
             <label>Вратарь соперника — необязательно<input id="fieldKeeperFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
             <div id="fieldKeeperPreview" class="asset-preview character">Вратарь соперника не загружен</div>
+            <label>Анимация вратаря соперника
+              <select id="fieldKeeperAnimation">
+                <option value="none">Без анимации</option>
+                <option value="pulse">Пульсация</option>
+                <option value="bounce">Подпрыгивание</option>
+                <option value="sway">Покачивание</option>
+                <option value="float">Парение</option>
+                <option value="spin">Лёгкий поворот</option>
+              </select>
+            </label>
             <p class="panel-note">Нажмите на игрока или вратаря в предпросмотре. Появится зелёная пунктирная рамка: перетаскивайте объект за саму рамку, а маркер в углу используйте для изменения размера.</p>
             <div class="field-play-settings">
               <h4>Пасы между игроками</h4>
@@ -138,7 +145,13 @@
 
         <section class="tab-panel" data-panel="players">
           <div class="section-heading"><div><div class="panel-kicker">СОСТАВ КОМАНДЫ</div><h2>Столько игроков, сколько нужно</h2></div><button id="addPlayer" class="round-add" title="Добавить игрока">＋</button></div>
-          <p class="panel-note">Добавляйте и удаляйте игроков без фиксированного состава. В редакторе вратарь считается №1, а полевые игроки идут с №2. В самой игре номера над игроками не показываются. Имя необязательно: если поле имени пустое, подпись в игре не отображается.</p>
+          <p class="panel-note">В режиме редактирования над игроками показываются номера. В тесте игры и в версии для Genially номера автоматически скрываются. Имя необязательно: если поле имени пустое, подписи в игре не будет.</p>
+          <div class="team-keeper-card">
+            <div class="player-editor-number">№1</div>
+            <div class="team-keeper-title">Вратарь</div>
+            <label class="upload-file-btn">⬆ Загрузить изображение / GIF<input id="teamKeeperFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+            <div id="teamKeeperPreview" class="asset-preview character">Вратарь вашей команды не загружен</div>
+          </div>
           <div id="playerList" class="upload-list"></div>
         </section>
 
@@ -208,6 +221,6 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script src="i18n.js?v=2.9.0"></script>\n  <script src="core.js?v=2.9.0"></script>\n  <script src="game.js?v=2.9.0"></script>\n  <script src="editor.js?v=2.9.0"></script>
+  <script src="i18n.js?v=2.10.0"></script>\n  <script src="core.js?v=2.10.0"></script>\n  <script src="game.js?v=2.10.0"></script>\n  <script src="editor.js?v=2.10.0"></script>
 </body>
 </html>
