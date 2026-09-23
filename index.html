@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#071b14">
   <title>Футбол — редактор учебной игры</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="base.css?v=2.7.0">
-  <link rel="stylesheet" href="styles.css?v=2.7.0">
-  <link rel="stylesheet" href="gameplay.css?v=2.7.0">
+  <link rel="stylesheet" href="base.css?v=2.8.0">
+  <link rel="stylesheet" href="styles.css?v=2.8.0">
+  <link rel="stylesheet" href="gameplay.css?v=2.8.0">
 </head>
 <body>
   <div id="app">
@@ -60,16 +60,16 @@
           <div class="panel-kicker">ИГРОВАЯ МЕХАНИКА</div>
           <h2>Режим игры</h2>
           <div class="mode-cards">
-            <button class="mode-card active" data-mode-choice="field"><b>⚽ Поле</b><span>11 игроков, передачи и задания при каждом пасе</span></button>
+            <button class="mode-card active" data-mode-choice="field"><b>⚽ Поле</b><span>Любое количество игроков, свободные или последовательные пасы</span></button>
             <button class="mode-card" data-mode-choice="keeper"><b>🥅 Вратарь</b><span>Наводящая линия, удар по воротам и реакция вратаря</span></button>
           </div>
           <div id="fieldMediaSettings">
             <h3>Поле</h3>
             <label>Фон игрового поля<input id="fieldBackgroundFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
             <div id="fieldBackgroundPreview" class="asset-preview">Фон не загружен</div>
-            <label>Вратарь команды соперника<input id="fieldKeeperFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
-            <div id="fieldKeeperPreview" class="asset-preview character">Вратарь соперника не загружен</div>
-            <p class="panel-note">Нажмите на игрока или вратаря соперника в предпросмотре. Появится зелёная пунктирная рамка: перетаскивайте объект за саму рамку, а маркер в углу используйте для изменения размера.</p>
+            <label>Вратарь на поле — необязательно<input id="fieldKeeperFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+            <div id="fieldKeeperPreview" class="asset-preview character">Вратарь не загружен</div>
+            <p class="panel-note">Нажмите на игрока или вратаря в предпросмотре. Появится зелёная пунктирная рамка: перетаскивайте объект за саму рамку, а маркер в углу используйте для изменения размера.</p>
             <div class="field-play-settings">
               <h4>Пасы между игроками</h4>
               <label>Режим пасов
@@ -128,8 +128,8 @@
         </section>
 
         <section class="tab-panel" data-panel="players">
-          <div class="section-heading"><div><div class="panel-kicker">СОСТАВ КОМАНДЫ</div><h2>До 11 футболистов</h2></div><button id="addPlayer" class="round-add">＋</button></div>
-          <p class="panel-note">Загрузите игрока — он сразу станет выбранным в предпросмотре. Перетаскивайте его мышью, а зелёный маркер используйте для изменения размера.</p>
+          <div class="section-heading"><div><div class="panel-kicker">СОСТАВ КОМАНДЫ</div><h2>Столько игроков, сколько нужно</h2></div><button id="addPlayer" class="round-add" title="Добавить игрока">＋</button></div>
+          <p class="panel-note">Добавляйте и удаляйте игроков без ограничения по фиксированному составу. Загруженный игрок сразу становится выбранным в предпросмотре.</p>
           <div id="playerList" class="upload-list"></div>
         </section>
 
@@ -199,6 +199,6 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script src="i18n.js?v=2.7.0"></script>\n  <script src="core.js?v=2.7.0"></script>\n  <script src="game.js?v=2.7.0"></script>\n  <script src="editor.js?v=2.7.0"></script>
+  <script src="i18n.js?v=2.8.0"></script>\n  <script src="core.js?v=2.8.0"></script>\n  <script src="game.js?v=2.8.0"></script>\n  <script src="editor.js?v=2.8.0"></script>
 </body>
 </html>
