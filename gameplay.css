@@ -396,3 +396,5 @@
   78%{transform:translate(-50%,-28%) rotate(20deg) scale(.96)}
   100%{transform:translate(-50%,-50%) rotate(28deg) scale(.94)}
 }
+
+.answer-review{flex:1;min-width:0}.answer-explanation summary{cursor:pointer;font-weight:800}.answer-explanation p{white-space:pre-wrap;overflow-wrap:anywhere}.task-actions:has(.answer-review){align-items:flex-start;flex-wrap:wrap}
